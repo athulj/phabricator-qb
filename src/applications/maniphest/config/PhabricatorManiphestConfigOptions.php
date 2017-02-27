@@ -62,7 +62,7 @@ final class PhabricatorManiphestConfigOptions
 
     $status_type = 'custom:ManiphestStatusConfigOptionType';
     $status_defaults = array(
-      'open' => array(
+      'Open' => array(
         'name' => pht('Open'),
         'special' => ManiphestTaskStatus::SPECIAL_DEFAULT,
         'prefixes' => array(
@@ -72,7 +72,7 @@ final class PhabricatorManiphestConfigOptions
           'reopens',
         ),
       ),
-      'resolved' => array(
+      'Resolved' => array(
         'name' => pht('Resolved'),
         'name.full' => pht('Closed, Resolved'),
         'closed' => true,
@@ -95,9 +95,9 @@ final class PhabricatorManiphestConfigOptions
         ),
         'keywords' => array('closed', 'fixed', 'resolved'),
       ),
-      'wontfix' => array(
-        'name' => pht('Wontfix'),
-        'name.full' => pht('Closed, Wontfix'),
+      'WontFix' => array(
+        'name' => pht('WontFix'),
+        'name.full' => pht('Closed, WontFix'),
         'transaction.icon' => 'fa-ban',
         'closed' => true,
         'prefixes' => array(
@@ -109,21 +109,21 @@ final class PhabricatorManiphestConfigOptions
           'as wontfix',
         ),
       ),
-      'invalid' => array(
-        'name' => pht('Invalid'),
-        'name.full' => pht('Closed, Invalid'),
-        'transaction.icon' => 'fa-minus-circle',
-        'closed' => true,
-        'claim' => false,
-        'prefixes' => array(
-          'invalidate',
-          'invalidates',
-          'invalidated',
-        ),
-        'suffixes' => array(
-          'as invalid',
-        ),
-      ),
+//      'invalid' => array(
+//        'name' => pht('Invalid'),
+//        'name.full' => pht('Closed, Invalid'),
+//        'transaction.icon' => 'fa-minus-circle',
+//        'closed' => true,
+//        'claim' => false,
+//        'prefixes' => array(
+//          'invalidate',
+//          'invalidates',
+//          'invalidated',
+//        ),
+//        'suffixes' => array(
+//          'as invalid',
+//        ),
+//      ),
       'duplicate' => array(
         'name' => pht('Duplicate'),
         'name.full' => pht('Closed, Duplicate'),
@@ -132,23 +132,25 @@ final class PhabricatorManiphestConfigOptions
         'closed' => true,
         'claim' => false,
       ),
-      'spite' => array(
-        'name' => pht('Spite'),
-        'name.full' => pht('Closed, Spite'),
-        'name.action' => pht('Spited'),
-        'transaction.icon' => 'fa-thumbs-o-down',
-        'silly' => true,
-        'closed' => true,
-        'prefixes' => array(
-          'spite',
-          'spites',
-          'spited',
-        ),
-        'suffixes' => array(
-          'out of spite',
-          'as spite',
-        ),
-      ),
+//      'spite' => array(
+//        'name' => pht('Spite'),
+//        'name.full' => pht('Closed, Spite'),
+//        'name.action' => pht('Spited'),
+//        'transaction.icon' => 'fa-thumbs-o-down',
+//        'silly' => true,
+//        'closed' => true,
+//        'prefixes' => array(
+//          'spite',
+//          'spites',
+//          'spited',
+//        ),
+//        'suffixes' => array(
+//          'out of spite',
+//          'as spite',
+//        ),
+//      ),
+        'InProgress' => array(
+            'name' => pht('InProgress'))
     );
 
     $status_description = $this->deformat(pht(<<<EOTEXT

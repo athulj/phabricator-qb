@@ -1,5 +1,8 @@
 <?php
 
+include 'ChromePhp.php';
+
+
 final class ManiphestEditEngine
   extends PhabricatorEditEngine {
 
@@ -353,6 +356,29 @@ EODOCS
     $request = $controller->getRequest();
     $viewer = $request->getViewer();
 
+    $temp = (object) $request->getRequestData();
+    $status = $temp->status;
+
+      ChromePhp::log($status);
+
+      $column_map = $this->getColumnMap($task);
+      $cmpct = (object)$column_map[0];
+      $columns_list = $cmpct->options;
+
+        $new_column_PHID = null;
+
+        foreach ($columns_list as $statusx){
+            $tmp = (object)$statusx;
+
+            if (strpos($tmp->label, $status) !== false) {
+                global $new_column_PHID;
+                $s = (object)$statusx;
+                ChromePhp::log("new PHID:");
+                $new_column_PHID = $s->key;
+            }
+
+
+        }
     $column_phid = $request->getStr('columnPHID');
 
     $visible_phids = $request->getStrList('visiblePHIDs');
@@ -369,7 +395,35 @@ EODOCS
     }
 
     $board_phid = $column->getProjectPHID();
+    $column_phid = $column->getPHID();
     $object_phid = $task->getPHID();
+
+      $engine = id(new PhabricatorBoardLayoutEngine())
+          ->setViewer($viewer)
+          ->setBoardPHIDs(array($board_phid))
+          ->setObjectPHIDs(array($object_phid))
+          ->executeLayout();
+
+      $columns = $engine->getObjectColumns($board_phid, $object_phid);
+      $xactions = array();
+      $xactions[] = id(new ManiphestTransaction())
+          ->setTransactionType(PhabricatorTransactions::TYPE_COLUMNS)
+          ->setNewValue(
+              array(
+                  array(
+                      //Give the column phid of column with matching status
+                      'columnPHID' => $new_column_PHID,
+                  )
+              ));
+
+
+      $editor = id(new ManiphestTransactionEditor())
+          ->setActor($viewer)
+          ->setContinueOnMissingFields(true)
+          ->setContinueOnNoEffect(true)
+          ->setContentSourceFromRequest($request);
+
+      $editor->applyTransactions($task, $xactions);
 
     return id(new PhabricatorBoardResponseEngine())
       ->setViewer($viewer)

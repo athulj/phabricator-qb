@@ -1,4 +1,5 @@
 <?php
+include 'ChromePhp.php';
 
 final class PhabricatorProjectMoveController
   extends PhabricatorProjectController {
@@ -51,6 +52,7 @@ final class PhabricatorProjectMoveController
 
     $columns = mpull($columns, null, 'getPHID');
     $column = idx($columns, $column_phid);
+    ChromePhp::log("The column to which we drop is : ". $column->getName().','.$column_phid);
     if (!$column) {
       // User is trying to drop this object into a nonexistent column, just kick
       // them out.
@@ -65,6 +67,9 @@ final class PhabricatorProjectMoveController
 
     $columns = $engine->getObjectColumns($board_phid, $object_phid);
     $old_column_phids = mpull($columns, 'getPHID');
+
+      $object->setStatus($column->getName());
+//      ChromePhp::log($object);
 
     $xactions = array();
 

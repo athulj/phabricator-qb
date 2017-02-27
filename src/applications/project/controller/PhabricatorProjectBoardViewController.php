@@ -1,4 +1,5 @@
 <?php
+//include 'ChromePhp.php';
 
 final class PhabricatorProjectBoardViewController
   extends PhabricatorProjectBoardController {
@@ -946,8 +947,31 @@ final class PhabricatorProjectBoardViewController
         $column = PhabricatorProjectColumn::initializeNewColumn($viewer)
           ->setSequence(0)
           ->setProperty('isDefault', true)
+            ->setName('Open')
           ->setProjectPHID($project->getPHID())
           ->save();
+
+          $column = PhabricatorProjectColumn::initializeNewColumn($viewer)
+              ->setSequence(0)
+              ->setProperty('isDefault', true)
+              ->setName('InProgress')
+              ->setProjectPHID($project->getPHID())
+              ->save();
+
+          $column = PhabricatorProjectColumn::initializeNewColumn($viewer)
+              ->setSequence(0)
+              ->setProperty('isDefault', true)
+              ->setName('Resolved')
+              ->setProjectPHID($project->getPHID())
+              ->save();
+
+
+          $column = PhabricatorProjectColumn::initializeNewColumn($viewer)
+              ->setSequence(0)
+              ->setProperty('isDefault', true)
+              ->setName('WontFix')
+              ->setProjectPHID($project->getPHID())
+              ->save();
 
         $project->setHasWorkboard(1)->save();
 
@@ -970,7 +994,7 @@ final class PhabricatorProjectBoardViewController
       ->addButton(
         'backlog-only',
         pht('New Empty Board'),
-        pht('Create a new board with just a backlog column.'))
+        pht('Create a new board with default backlog columns.'))
       ->addButton(
         'import',
         pht('Import Columns'),

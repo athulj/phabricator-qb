@@ -108,6 +108,7 @@ final class ProjectBoardTaskCard extends Phobject {
       }
     }
 
+    //Set icon and color for card object.
     if ($task->isClosed()) {
       $icon = ManiphestTaskStatus::getStatusIcon($task->getStatus());
       $icon = id(new PHUIIconView())
