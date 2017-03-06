@@ -356,29 +356,22 @@ EODOCS
     $request = $controller->getRequest();
     $viewer = $request->getViewer();
 
-    $temp = (object) $request->getRequestData();
-    $status = $temp->status;
+    $request_data = (object) $request->getRequestData();
+    $status = $request_data->status;
 
-      ChromePhp::log($status);
+    $columns_map = (object)($this->getColumnMap($task)[0]);
+    $columns_list = $columns_map->options;
 
-      $column_map = $this->getColumnMap($task);
-      $cmpct = (object)$column_map[0];
-      $columns_list = $cmpct->options;
+    $new_column_PHID = null;
 
-        $new_column_PHID = null;
-
-        foreach ($columns_list as $statusx){
-            $tmp = (object)$statusx;
-
-            if (strpos($tmp->label, $status) !== false) {
-                global $new_column_PHID;
-                $s = (object)$statusx;
-                ChromePhp::log("new PHID:");
-                $new_column_PHID = $s->key;
-            }
-
-
+    foreach ($columns_list as $statusOption){
+        $option = (object)$statusOption;
+        if (strpos($option->label, $status) !== false) {
+            global $new_column_PHID;
+            $new_column_PHID = $option->key;
         }
+    }
+
     $column_phid = $request->getStr('columnPHID');
 
     $visible_phids = $request->getStrList('visiblePHIDs');
