@@ -68,7 +68,8 @@ final class PhabricatorProjectMoveController
     $columns = $engine->getObjectColumns($board_phid, $object_phid);
     $old_column_phids = mpull($columns, 'getPHID');
 
-      $object->setStatus($column->getName());
+        if($column->isDefaultColumn())
+            $object->setStatus($column->getName());
 //      ChromePhp::log($object);
 
     $xactions = array();
